@@ -5,7 +5,6 @@ public class Person {
     private String surname;
     private Integer age;
     private final Random random = new Random();
-
     private static final int maxAge = 99;
 
     final String[] nameArray = {"Dmitry", "Olga", "Vitaly", "Makar",
@@ -20,7 +19,6 @@ public class Person {
             "Mackenzie", "Shipbuilders", "Kudryashov", "Dyachenko",
             "Lunin", "Romashchuk", "Aigi", "Levin"};
 
-    // создайте конструктор на все поля
     public Person(String name, String surname, int age) {
         this.name = name;
         this.surname = surname;
@@ -31,7 +29,6 @@ public class Person {
         this("name", "surname", 0);
     }
 
-    // создайте геттеры и сеттеры
     public String getName() {
         return name;
     }
@@ -56,19 +53,32 @@ public class Person {
         this.age = age;
     }
 
-    // создайте toString
     @Override
     public String toString() {
-        return "Person{" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", age=" + age +
-                '}';
+        return "Person{ " +
+                "name = '" + name + '\'' +
+                ", surname = '" + surname + '\'' +
+                ", age = " + age +
+                " }";
     }
 
-    public Person generation() {
+    public Person generation(int maxWordsInSurname) {
+        String string = "";
+        int numWords = (int) (Math.random() * ((maxWordsInSurname)));
+
         name = nameArray[new Random().nextInt(nameArray.length - 1)];
-        surname = surnameArray[new Random().nextInt(surnameArray.length - 1)];
+        if (numWords <= 0) {
+            surname = surnameArray[new Random().nextInt(surnameArray.length - 1)];
+        } else {
+            for (int i = 0; i < numWords; i++) {
+                if (i != numWords - 1) {
+                    string += surnameArray[new Random().nextInt(surnameArray.length - 1)] + "-";
+                } else {
+                    string += surnameArray[new Random().nextInt(surnameArray.length - 1)];
+                }
+                surname = string;
+            }
+        }
         age = random.nextInt(maxAge) + 1;
         return new Person(name, surname, age);
     }
